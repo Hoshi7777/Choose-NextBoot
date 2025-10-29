@@ -15,7 +15,7 @@ An interactive CLI tool to list your UEFI boot entries and set one as the **next
 ## Install
 1. Save the script:
    ```bash
-   sudo tee /usr/local/bin/choose-bootnext.sh >/dev/null <<'EOF'
+   sudo tee /usr/local/bin/Choose-NextBoot.sh >/dev/null <<'EOF'
    #! /usr/bin/env bash
    set -euo pipefail
    if [[ $EUID -ne 0 ]]; then exec sudo --preserve-env=PATH "$0" "$@"; fi
@@ -63,3 +63,41 @@ An interactive CLI tool to list your UEFI boot entries and set one as the **next
    read -rp "Reboot now to use BootNext? [y/N]: " ans
    [[ "$ans" =~ ^[Yy]$ ]] && { echo "Rebooting..."; systemctl reboot; }
    EOF
+
+Make it executable:
+chmod +x /usr/local/bin/Choose-NextBoot.sh
+
+EXAMPLE:
+=== EFI status ===
+  BootCurrent: 0000
+  BootOrder: 0000,0001,0008
+  BootNext: 0001
+  ...
+
+=== Select the entry to use for the NEXT boot (BootNext) ===
+  #   ID       Label                                    Path
+---- ------ ---------------------------------------- -----------------------------------------
+  1  0000     Linux Boot Manager                       \EFI\systemd\systemd-bootx64.efi
+  2  0001     Windows Boot Manager                     \EFI\Microsoft\Boot\bootmgfw.efi
+  3  0008     UEFI OS                                  \EFI\BOOT\BOOTX64.EFI
+Enter number (1-3) to set as BootNext (or 'q' to quit):
+
+Notes
+
+BootNext is a one-time setting. It does not change your permanent BootOrder.
+
+You must have firmware/BIOS in UEFI mode (not Legacy/CSM).
+
+If you don’t see the OS you expect, ensure its EFI files exist on that disk’s ESP and that the entry is registered (efibootmgr -c ...).
+
+Troubleshooting
+
+No such file or directory / No EFI entries: Booted in Legacy mode or missing ESP.
+
+efibootmgr not found: Install it (sudo apt install efibootmgr).
+
+Operation not permitted: Run the script without sudo; it re-execs itself with sudo.
+
+Security
+
+The script uses sudo only for efibootmgr and reading EFI data. Inspect before installing if desired.
