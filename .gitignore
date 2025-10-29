@@ -1,0 +1,27 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+*.swp
+*.swo
+*.swn
+*~
+.vscode/
+.idea/
+
+# Logs / temp
+*.log
+*.tmp
+*.bak
+
+# Python venv (if you ever add helper scripts)
+.venv/
+venv/
+
+# Node (if you ever add a small UI)
+node_modules/
+
+# Build artifacts (generic)
+dist/
+build/
