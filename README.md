@@ -67,22 +67,7 @@ An interactive CLI tool to list your UEFI boot entries and set one as the **next
 Make it executable:
 chmod +x /usr/local/bin/Choose-NextBoot.sh
 
-EXAMPLE:
-=== EFI status ===
-  BootCurrent: 0000
-  BootOrder: 0000,0001,0008
-  BootNext: 0001
-  ...
-
-=== Select the entry to use for the NEXT boot (BootNext) ===
-  #   ID       Label                                    Path
----- ------ ---------------------------------------- -----------------------------------------
-  1  0000     Linux Boot Manager                       \EFI\systemd\systemd-bootx64.efi
-  2  0001     Windows Boot Manager                     \EFI\Microsoft\Boot\bootmgfw.efi
-  3  0008     UEFI OS                                  \EFI\BOOT\BOOTX64.EFI
-Enter number (1-3) to set as BootNext (or 'q' to quit):
-
-Notes
+# Notes
 
 BootNext is a one-time setting. It does not change your permanent BootOrder.
 
@@ -90,7 +75,7 @@ You must have firmware/BIOS in UEFI mode (not Legacy/CSM).
 
 If you don’t see the OS you expect, ensure its EFI files exist on that disk’s ESP and that the entry is registered (efibootmgr -c ...).
 
-Troubleshooting
+# Troubleshooting
 
 No such file or directory / No EFI entries: Booted in Legacy mode or missing ESP.
 
@@ -98,6 +83,6 @@ efibootmgr not found: Install it (sudo apt install efibootmgr).
 
 Operation not permitted: Run the script without sudo; it re-execs itself with sudo.
 
-Security
+# Security
 
 The script uses sudo only for efibootmgr and reading EFI data. Inspect before installing if desired.
